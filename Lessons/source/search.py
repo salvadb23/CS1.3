@@ -48,11 +48,14 @@ def binary_search_recursive(array, item, left=None, right=None):
     right_pointer = len(array) - 1
 
     while left_pointer <= right_pointer:
-        middle_index = 
+        middle_index = int(math.floor(left_pointer / right_pointer) / 2)
+        middle_value = array[middle_index]
 
+        if middle_value == item:
+            return middle_index
+        elif middle_value < item:
+            pass  # TODO: Do something recursive in here
     pass
-    # once implemented, change binary_search to call binary_search_recursive
-    # to verify that your recursive implementation passes all tests
 
 
 def binary_search(array, item):
