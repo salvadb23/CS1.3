@@ -25,7 +25,7 @@ hexa_dict = {
     "f": 15,
 }
 
-num_to_symbol = string.digits + string.ascii_uppercase
+num_to_symbol = string.digits + string.ascii_lowercase
 symbol_to_num = {symbol: index for index, symbol in enumerate(num_to_symbol)}
 
 
@@ -36,14 +36,9 @@ def decode(digits, base):
     return: int -- integer representation of number (in base 10)"""
     # Handle up to base 36 [0-9a-z]
     assert 2 <= base <= 36, 'base is out of range: {}'.format(base)
-    exponent_counter = 0
     decoded_digit = 0
-    digit_list = reversed(list(digits))
-    for i in digit_list:
-        if i.isalpha():
-            i = hexa_dict[i]
-        decoded_digit += int(i) * (base ** exponent_counter)
-        exponent_counter += 1
+    for exponent, symbol in enumerate(reversed(digits)):
+        decoded_digit += symbol_to_num[symbol] * (base ** exponent)
 
     return decoded_digit
 
