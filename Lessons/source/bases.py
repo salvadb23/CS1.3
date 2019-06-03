@@ -1,6 +1,7 @@
 #!python
 
 import string
+import math
 # Hint: Use these string constants to encode/decode hexadecimal digits and more
 # string.digits is '0123456789'
 # string.hexdigits is '0123456789abcdefABCDEF'
@@ -8,6 +9,24 @@ import string
 # string.ascii_uppercase is 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 # string.ascii_letters is ascii_lowercase + ascii_uppercase
 # string.printable is digits + ascii_letters + punctuation + whitespace
+
+hexa_dict = {
+    "A": 10,
+    "B": 11,
+    "C": 12,
+    "D": 13,
+    "E": 14,
+    "F": 15,
+    "a": 10,
+    "b": 11,
+    "c": 12,
+    "d": 13,
+    "e": 14,
+    "f": 15,
+}
+
+num_to_symbol = string.digits + string.ascii_uppercase
+symbol_to_num = {symbol: index for index, symbol in enumerate(num_to_symbol)}
 
 
 def decode(digits, base):
@@ -17,18 +36,16 @@ def decode(digits, base):
     return: int -- integer representation of number (in base 10)"""
     # Handle up to base 36 [0-9a-z]
     assert 2 <= base <= 36, 'base is out of range: {}'.format(base)
-    if base is 2:
-        pass
-    elif base is 16:
-        pass
-    elif base is 36:
-        pass
-        # TODO: Decode digits from binary (base 2)
-        # ...
-        # TODO: Decode digits from hexadecimal (base 16)
-        # ...
-        # TODO: Decode digits from any base (2 up to 36)
-        # ...
+    exponent_counter = 0
+    decoded_digit = 0
+    digit_list = reversed(list(digits))
+    for i in digit_list:
+        if i.isalpha():
+            i = hexa_dict[i]
+        decoded_digit += int(i) * (base ** exponent_counter)
+        exponent_counter += 1
+
+    return decoded_digit
 
 
 def encode(number, base):
@@ -40,12 +57,16 @@ def encode(number, base):
     assert 2 <= base <= 36, 'base is out of range: {}'.format(base)
     # Handle unsigned numbers only for now
     assert number >= 0, 'number is negative: {}'.format(number)
-    # TODO: Encode number in binary (base 2)
-    # ...
-    # TODO: Encode number in hexadecimal (base 16)
-    # ...
-    # TODO: Encode number in any base (2 up to 36)
-    # ...
+
+    number_to_divide = number
+    remainders = []
+
+    while number_to_divide != 0:
+        remainder = number_to_divide % base
+        number_to_divide = number_to_divide // base
+        remainders.append(num_to_symbol[remainder])
+
+    return ''.join(reversed(remainders))
 
 
 def convert(digits, base1, base2):
@@ -57,14 +78,8 @@ def convert(digits, base1, base2):
     # Handle up to base 36 [0-9a-z]
     assert 2 <= base1 <= 36, 'base1 is out of range: {}'.format(base1)
     assert 2 <= base2 <= 36, 'base2 is out of range: {}'.format(base2)
-    # TODO: Convert digits from base 2 to base 16 (and vice versa)
-    # ...
-    # TODO: Convert digits from base 2 to base 10 (and vice versa)
-    # ...
-    # TODO: Convert digits from base 10 to base 16 (and vice versa)
-    # ...
-    # TODO: Convert digits from any base to any base (2 up to 36)
-    # ...
+    number = decode(digits, base1)
+    return encode(number, base2)
 
 
 def main():
@@ -86,3 +101,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+    print(convert("35631", 10, 2))
