@@ -38,7 +38,7 @@ def decode(digits, base):
     assert 2 <= base <= 36, 'base is out of range: {}'.format(base)
     decoded_digit = 0
     for exponent, symbol in enumerate(reversed(digits)):
-        decoded_digit += symbol_to_num[symbol] * (base ** exponent)
+        decoded_digit += symbol_to_num[symbol.lower()] * (base ** exponent)
 
     return decoded_digit
 
@@ -53,13 +53,14 @@ def encode(number, base):
     # Handle unsigned numbers only for now
     assert number >= 0, 'number is negative: {}'.format(number)
 
-    number_to_divide = number
+    dividend = number
     remainders = []
 
-    while number_to_divide != 0:
-        remainder = number_to_divide % base
-        number_to_divide = number_to_divide // base
+    while dividend != 0:
+        remainder = dividend % base
         remainders.append(num_to_symbol[remainder])
+        dividend = dividend // base
+       
 
     return ''.join(reversed(remainders))
 
@@ -96,4 +97,4 @@ def main():
 
 if __name__ == '__main__':
     main()
-    print(convert("35631", 10, 2))
+    print(decode('3D7', 16))
