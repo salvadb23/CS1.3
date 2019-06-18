@@ -45,6 +45,8 @@ def binary_search_iterative(array, item):
 def binary_search_recursive(array, item, left=0, right=None):
     if right is None:
         right = len(array) - 1
+    if left > right:
+        return None
 
     middle_index = int(math.ceil((left + right) // 2))
     middle_value = array[middle_index]
@@ -59,8 +61,8 @@ def binary_search_recursive(array, item, left=0, right=None):
 
 def binary_search(array, item):
     """return the index of item in sorted array or None if item is not found"""
-    return binary_search_iterative(array, item)
-    # return binary_search_recursive(array, item)
+    # return binary_search_iterative(array, item)
+    return binary_search_recursive(array, item)
 
 
 names = ['Alex', 'Brian', 'Julia', 'Kojin', 'Nabil', 'Nick', 'Winnie']
