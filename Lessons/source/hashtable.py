@@ -26,8 +26,7 @@ class HashTable(object):
     def load_factor(self):
         """Return the load factor, the ratio of number of entries to buckets.
         Best and worst case running time: ??? under what conditions? [TODO]"""
-        # TODO: Calculate load factor
-        # return ...
+        return self.length()/len(self.buckets)
 
     def keys(self):
         """Return a list of all keys in this hash table.
@@ -62,10 +61,10 @@ class HashTable(object):
         """Return the number of key-value entries by traversing its buckets.
         Best and worst case running time: ??? under what conditions? [TODO]"""
         # Count number of key-value entries in each of the buckets
-        item_count = 0
-        for bucket in self.buckets:
-            item_count += bucket.length()
-        return item_count
+        # item_count = 0
+        # for bucket in self.buckets:
+        #     item_count += bucket.length()
+        # return item_count
         # Equivalent to this list comprehension:
         return sum(bucket.length() for bucket in self.buckets)
 
@@ -110,9 +109,14 @@ class HashTable(object):
         if entry is not None:  # Found
             # In this case, the given key's value is being updated
             # Remove the old key-value entry from the bucket first
+            self.size -= 1
             bucket.delete(entry)
         # Insert the new key-value entry into the bucket in either case
         bucket.append((key, value))
+        self.size += 1
+        load_factor = self.load_factor()
+        if load_factor > .75:
+            self._resize()
         # TODO: Check if the load factor exceeds a threshold such as 0.75
         # ...
         # TODO: If so, automatically resize to reduce the load factor
@@ -129,6 +133,7 @@ class HashTable(object):
         entry = bucket.find(lambda key_value: key_value[0] == key)
         if entry is not None:  # Found
             # Remove the key-value entry from the bucket
+            self.size -= 1
             bucket.delete(entry)
         else:  # Not found
             raise KeyError('Key not found: {}'.format(key))
@@ -145,6 +150,14 @@ class HashTable(object):
         # Option to reduce size if buckets are sparsely filled (low load factor)
         elif new_size is 0:
             new_size = len(self.buckets) / 2  # Half size
+
+        copy_list = self.items()
+        self.buckets = [LinkedList() for i in range(new_size)]
+        self.size = 0
+
+        for key, value in copy_list:
+            self.set(key,value)
+        
         # TODO: Get a list to temporarily hold all current key-value entries
         # ...
         # TODO: Create a new list of new_size total empty linked list buckets
@@ -156,48 +169,53 @@ class HashTable(object):
 
 def test_hash_table():
     ht = HashTable(4)
-    print('HashTable: ' + str(ht))
-
-    print('Setting entries:')
     ht.set('I', 1)
-    print('set(I, 1): ' + str(ht))
-    ht.set('V', 5)
-    print('set(V, 5): ' + str(ht))
-    print('size: ' + str(ht.size))
-    print('length: ' + str(ht.length()))
-    print('buckets: ' + str(len(ht.buckets)))
-    print('load_factor: ' + str(ht.load_factor()))
-    ht.set('X', 10)
-    print('set(X, 10): ' + str(ht))
-    ht.set('L', 50)  # Should trigger resize
-    print('set(L, 50): ' + str(ht))
-    print('size: ' + str(ht.size))
-    print('length: ' + str(ht.length()))
-    print('buckets: ' + str(len(ht.buckets)))
-    print('load_factor: ' + str(ht.load_factor()))
+    ht.set('A', 2)
+    print(ht.load_factor())
+    print(ht._resize())
 
-    print('Getting entries:')
-    print('get(I): ' + str(ht.get('I')))
-    print('get(V): ' + str(ht.get('V')))
-    print('get(X): ' + str(ht.get('X')))
-    print('get(L): ' + str(ht.get('L')))
-    print('contains(X): ' + str(ht.contains('X')))
-    print('contains(Z): ' + str(ht.contains('Z')))
+    # print('HashTable: ' + str(ht))
 
-    print('Deleting entries:')
-    ht.delete('I')
-    print('delete(I): ' + str(ht))
-    ht.delete('V')
-    print('delete(V): ' + str(ht))
-    ht.delete('X')
-    print('delete(X): ' + str(ht))
-    ht.delete('L')
-    print('delete(L): ' + str(ht))
-    print('contains(X): ' + str(ht.contains('X')))
-    print('size: ' + str(ht.size))
-    print('length: ' + str(ht.length()))
-    print('buckets: ' + str(len(ht.buckets)))
-    print('load_factor: ' + str(ht.load_factor()))
+    # print('Setting entries:')
+    # ht.set('I', 1)
+    # print('set(I, 1): ' + str(ht))
+    # ht.set('V', 5)
+    # print('set(V, 5): ' + str(ht))
+    # print('size: ' + str(ht.size))
+    # print('length: ' + str(ht.length()))
+    # print('buckets: ' + str(len(ht.buckets)))
+    # print('load_factor: ' + str(ht.load_factor()))
+    # ht.set('X', 10)
+    # print('set(X, 10): ' + str(ht))
+    # ht.set('L', 50)  # Should trigger resize
+    # print('set(L, 50): ' + str(ht))
+    # print('size: ' + str(ht.size))
+    # print('length: ' + str(ht.length()))
+    # print('buckets: ' + str(len(ht.buckets)))
+    # print('load_factor: ' + str(ht.load_factor()))
+
+    # print('Getting entries:')
+    # print('get(I): ' + str(ht.get('I')))
+    # print('get(V): ' + str(ht.get('V')))
+    # print('get(X): ' + str(ht.get('X')))
+    # print('get(L): ' + str(ht.get('L')))
+    # print('contains(X): ' + str(ht.contains('X')))
+    # print('contains(Z): ' + str(ht.contains('Z')))
+
+    # print('Deleting entries:')
+    # ht.delete('I')
+    # print('delete(I): ' + str(ht))
+    # ht.delete('V')
+    # print('delete(V): ' + str(ht))
+    # ht.delete('X')
+    # print('delete(X): ' + str(ht))
+    # ht.delete('L')
+    # print('delete(L): ' + str(ht))
+    # print('contains(X): ' + str(ht.contains('X')))
+    # print('size: ' + str(ht.size))
+    # print('length: ' + str(ht.length()))
+    # print('buckets: ' + str(len(ht.buckets)))
+    # print('load_factor: ' + str(ht.load_factor()))
 
 
 if __name__ == '__main__':

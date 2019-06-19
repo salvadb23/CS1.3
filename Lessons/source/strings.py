@@ -1,17 +1,35 @@
 #!python
 
+
 def contains(text, pattern):
     """Return a boolean indicating whether pattern occurs in text."""
     assert isinstance(text, str), 'text is not a string: {}'.format(text)
     assert isinstance(pattern, str), 'pattern is not a string: {}'.format(text)
-    # TODO: Implement contains here (iteratively and/or recursively)
+
+    for start in range((len(text) - len(pattern) + 1)):
+        for offset in range(len(pattern)):
+            if text[start + offset] != pattern[offset]:
+                break
+        else:
+            return True
+
+    return False
 
 
 def find_index(text, pattern):
     """Return the starting index of the first occurrence of pattern in text,
-    or None if not found."""
+        or None if not found."""
     assert isinstance(text, str), 'text is not a string: {}'.format(text)
-    assert isinstance(pattern, str), 'pattern is not a string: {}'.format(text)
+    assert isinstance(pattern, str), 'pattern is not a string: {}'.format(text)\
+
+    for start in range((len(text) - len(pattern) + 1)):
+        for offset in range(len(pattern)):
+            if text[start + offset] != pattern[offset]:
+                break
+        else:
+            return start
+    return None
+
     # TODO: Implement find_index here (iteratively and/or recursively)
 
 
@@ -21,6 +39,21 @@ def find_all_indexes(text, pattern):
     assert isinstance(text, str), 'text is not a string: {}'.format(text)
     assert isinstance(pattern, str), 'pattern is not a string: {}'.format(text)
     # TODO: Implement find_all_indexes here (iteratively and/or recursively)
+
+    indices = []
+
+    for start in range((len(text) - len(pattern) + 1)):
+        for offset in range(len(pattern)):
+            if text[start + offset] != pattern[offset]:
+                break
+        else:
+            indices.append(start)
+
+    if pattern is '':
+        indices.pop()
+        return indices
+
+    return indices
 
 
 def test_string_algorithms(text, pattern):
@@ -54,3 +87,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+    print(contains('abra cadabra', 'abra'))
