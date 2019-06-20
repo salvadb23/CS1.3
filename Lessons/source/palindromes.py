@@ -1,6 +1,7 @@
 #!python
 
 import string
+import re
 # Hint: Use these string constants to ignore capitalization and/or punctuation
 # string.ascii_lowercase is 'abcdefghijklmnopqrstuvwxyz'
 # string.ascii_uppercase is 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
@@ -19,16 +20,17 @@ def is_palindrome(text):
 
 def is_palindrome_iterative(text):
     # TODO: implement the is_palindrome function iteratively here
-    pass
-    # once implemented, change is_palindrome to call is_palindrome_iterative
-    # to verify that your iterative implementation passes all tests
+    clean_word = clean_text(text).lower()
+    return clean_word == clean_word[::-1]
 
 
-def is_palindrome_recursive(text, left=None, right=None):
-    # TODO: implement the is_palindrome function recursively here
-    pass
-    # once implemented, change is_palindrome to call is_palindrome_recursive
-    # to verify that your iterative implementation passes all tests
+def clean_text(text):
+    return ''.join([letter for letter in text if letter.isalpha()])
+
+
+def is_palindrome_recursive(text, left=0, right=None):
+    if right is None:
+        right = len(text) 
 
 
 def main():
