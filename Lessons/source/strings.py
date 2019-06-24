@@ -5,32 +5,26 @@ def contains(text, pattern):
     """Return a boolean indicating whether pattern occurs in text."""
     assert isinstance(text, str), 'text is not a string: {}'.format(text)
     assert isinstance(pattern, str), 'pattern is not a string: {}'.format(text)
-
-    for start in range((len(text) - len(pattern) + 1)):
-        for offset in range(len(pattern)):
-            if text[start + offset] != pattern[offset]:
-                break
-        else:
-            return True
-
-    return False
+    # Average case O(n ** 2) - we call find_all_indexes
+    index_arr = find_all_indexes(text, pattern)
+    if len(index_arr) != 0:  # O(1)
+        return True  # O(1)
+    return False  # O(1)
 
 
 def find_index(text, pattern):
     """Return the starting index of the first occurrence of pattern in text,
         or None if not found."""
     assert isinstance(text, str), 'text is not a string: {}'.format(text)
-    assert isinstance(pattern, str), 'pattern is not a string: {}'.format(text)\
+    assert isinstance(pattern, str), 'pattern is not a string: {}'.format(text)
+    # Average case O(n ** 2) - we call find_all_indexes
 
-    for start in range((len(text) - len(pattern) + 1)):
-        for offset in range(len(pattern)):
-            if text[start + offset] != pattern[offset]:
-                break
-        else:
-            return start
-    return None
-
-    # TODO: Implement find_index here (iteratively and/or recursively)
+    index_arr = find_all_indexes(text, pattern)
+    try:
+        if index_arr[0] != None:  # O(1)
+            return index_arr[0]  # O(1)
+    except IndexError:
+        return None  # O(1)
 
 
 def find_all_indexes(text, pattern):
@@ -38,22 +32,22 @@ def find_all_indexes(text, pattern):
     or an empty list if not found."""
     assert isinstance(text, str), 'text is not a string: {}'.format(text)
     assert isinstance(pattern, str), 'pattern is not a string: {}'.format(text)
-    # TODO: Implement find_all_indexes here (iteratively and/or recursively)
+    # Average case O(n ** 2) - where n is the size of the text and the pattern
 
-    indices = []
+    indices = []  # O(1)
 
-    for start in range((len(text) - len(pattern) + 1)):
-        for offset in range(len(pattern)):
-            if text[start + offset] != pattern[offset]:
+    for start in range((len(text) - len(pattern) + 1)):  # O(n)
+        for offset in range(len(pattern)):  # O(n)
+            if text[start + offset] != pattern[offset]:  # O(1)
                 break
         else:
-            indices.append(start)
+            indices.append(start)  # O(1)
 
-    if pattern is '':
-        indices.pop()
-        return indices
+    if pattern is '':  # O(1)
+        indices.pop()  # O(1)
+        return indices  # O(1)
 
-    return indices
+    return indices  # O(1)
 
 
 def test_string_algorithms(text, pattern):
