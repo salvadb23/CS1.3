@@ -21,8 +21,7 @@ def find_index(text, pattern):
 
     index_arr = find_all_indexes(text, pattern)
     try:
-        if index_arr[0] != None:  # O(1)
-            return index_arr[0]  # O(1)
+        return index_arr[0]
     except IndexError:
         return None  # O(1)
 
