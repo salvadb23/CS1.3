@@ -1,6 +1,3 @@
-#!python
-
-
 class Node(object):
 
     def __init__(self, data):
@@ -100,12 +97,15 @@ class LinkedList(object):
         # Check if the given index is out of range and if so raise an error
         if not (0 <= index <= self.size):
             raise ValueError('List index out of range: {}'.format(index))
+
+        # 0 is the head so prepend
         if index == 0:
             self.prepend(item)
         else:
             prev = self.head
             current = prev.next
 
+            # Look for the index of the node that we want to delete
             for index in range(index-1):
                 prev = prev.next
                 current = current.next

@@ -28,9 +28,9 @@ class TestPalindromes(unittest.TestCase):
     
     def test_is_palindrome_with_numbers_and_letters(self):
         # palindromes with mixed letter casing
-        assert is_palindrome('5Bb%') is True
         assert is_palindrome('4Lol4') is True
         assert is_palindrome('34NoOn43') is True
+        assert is_palindrome('34NoOn34') is False
 
     def test_is_palindrome_with_whitespace(self):
         # palindromes with whitespace
@@ -89,6 +89,7 @@ class TestPalindromes(unittest.TestCase):
         assert is_palindrome('AAAAZAAA') is False
         assert is_palindrome("AZZZZAZ") is False
         assert is_palindrome('AAAAAAAZ') is False
+        assert is_palindrome('55445') is False
 
 
 if __name__ == '__main__':
