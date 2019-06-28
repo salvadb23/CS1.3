@@ -26,6 +26,11 @@ class StringsTest(unittest.TestCase):
         assert contains('abc', 'ac') is False  # important to test close cases
         assert contains('abc', 'az') is False  # first letter, but not last
         assert contains('abc', 'abz') is False  # first 2 letters, but not last
+        assert contains('bookshelf', 'no books') is False
+        assert contains('wackadoodledoo', 'abc') is False
+        assert contains('1234456131343141322222ab', 'qr') is False
+        assert contains('!!!!!!!!!!', 'abcdefg') is False
+
         # TODO: Write more negative test cases with assert is False statements
         # ...
 
@@ -35,6 +40,8 @@ class StringsTest(unittest.TestCase):
         assert contains('banana', 'na') is True  # multiple occurrences
         assert contains('ababc', 'abc') is True  # overlapping prefix
         assert contains('bananas', 'nas') is True  # overlapping prefix
+        assert contains('shooby doo bap bap', 'o bap') is True
+        assert contains('housecastle', 'house') is True
         # TODO: Write more test cases that check complex patterns or edge cases
         # You'll need a lot more than this to test your algorithm's robustness
         # ...
@@ -50,6 +57,7 @@ class StringsTest(unittest.TestCase):
         assert find_index('abc', 'abc') == 0  # all strings contain themselves
         assert find_index('aaa', 'a') == 0  # multiple occurrences
         assert find_index('aaa', 'aa') == 0  # overlapping pattern
+        assert find_index('woooooop', 'oop') == 5
         # TODO: Write more positive test cases with assert equal int statements
         # ...
 
@@ -98,6 +106,7 @@ class StringsTest(unittest.TestCase):
         assert find_all_indexes('abc', 'ac') == []  # important to test close cases
         assert find_all_indexes('abc', 'az') == []  # first letter, but not last
         assert find_all_indexes('abc', 'abz') == []  # first 2 letters, but not last
+        assert find_all_indexes('abcdef', 'abcdefh') == []  # first 2 letters, but not last
         # TODO: Write more negative test cases with assert equal list statements
         # ...
 
@@ -113,6 +122,8 @@ class StringsTest(unittest.TestCase):
         assert find_all_indexes('abcabcdabcde', 'abcd') == [3, 7]  # multiple occurrences, overlapping prefix
         assert find_all_indexes('abra cadabra', 'abra') == [0, 8]  # multiple occurrences
         assert find_all_indexes('abra cadabra', 'adab') == [6]  # overlapping prefix
+        assert find_all_indexes('tear bear ear canal', 'ear') == [1, 6, 10]
+        assert find_all_indexes('burrito perro guerra', 'rr') == [2, 10, 17]
         # TODO: Write more test cases that check complex patterns or edge cases
         # You'll need a lot more than this to test your algorithm's robustness
         # ...
