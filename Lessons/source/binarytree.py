@@ -98,7 +98,7 @@ class BinarySearchTree(object):
             self.size += 1
             return
 
-        parent = self._find_parent_node_recursive(item, self.root)
+        parent = self._find_parent_node_iterative(item)
 
         if item < parent.data:
             parent.left = BinaryTreeNode(item)
@@ -192,7 +192,7 @@ class BinarySearchTree(object):
         items = []
         if not self.is_empty():
             # Traverse tree in-order from root, appending each node's item
-            self._traverse_in_order_recursive(self.root, items.append)
+            self._traverse_in_order_iterative(self.root, items.append)
         # Return in-order list of all items in tree
         return items
 

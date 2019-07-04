@@ -34,7 +34,7 @@ def binary_search_iterative(array, item):
         middle_value = array[middle_index]
 
         if middle_value == item:
-            return middle_index
+            return middle_value
         elif middle_value < item:
             left_pointer = middle_index + 1
         else:
@@ -64,8 +64,3 @@ def binary_search(array, item):
     # return binary_search_iterative(array, item)
     return binary_search_recursive(array, item)
 
-
-names = ['Alex', 'Brian', 'Julia', 'Kojin', 'Nabil', 'Nick', 'Winnie']
-numbers = [1,2,3,4,5]
-result = binary_search_recursive(names, 'Nick')
-print(result)
