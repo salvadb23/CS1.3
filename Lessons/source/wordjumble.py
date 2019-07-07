@@ -13,7 +13,7 @@ def get_words(file):
 def create_word_array():
     word_arr = []
     for word in get_words('/usr/share/dict/words'):
-        word_arr.append(word)
+        word_arr.append(word.lower())
     return word_arr
 
 
@@ -35,13 +35,11 @@ def get_permutations(string):
 
 def unscramble(string):
     word_arr = create_word_array()
-    permutations_arr = get_permutations(string)
+    permutations_arr = get_permutations(string.lower())
     unscrambled = []
     for word in permutations_arr:
-        if word in word_arr:
+        if binary_search_iterative(word_arr, word) is not None:
             unscrambled.append(word)
     return unscrambled
-    
 
-
-print(unscramble('sokik'))
+print(unscramble('ioskk'))
